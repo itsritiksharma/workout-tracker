@@ -6,10 +6,7 @@ import '../screens/main_drawer.dart';
 import './main_app.dart';
 
 class HomePage extends StatelessWidget {
-  // const HomePage({Key? key}) : super(key: key);
-  // final titleController = TextEditingController();
-  // final repsController = TextEditingController();
-
+  const HomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,30 +44,45 @@ class HomePage extends StatelessWidget {
       //     height: 50,
       //   ),
       // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: CurvedNavigationBar(
+        onTap: (value) {
+          showModalBottomSheet(
+            context: context,
+            builder: (ctx) {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  child: ListView(
+                    children: [
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Workout',
+                        ),
+                        textInputAction: TextInputAction.next,
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Reps',
+                        ),
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.number,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        },
         color: Theme.of(context).primaryColor,
         items: [
-          IconButton(
-            onPressed: () {
-              // showModalBottomSheet(
-              //   context: context,
-              //   builder: (ctx) {
-              //     Column(
-              //       children: [
-              //         TextField(
-              //           controller: titleController,
-              //         ),
-              //       ],
-              //     );
-              //   },
-              // );
-            },
-            icon: Icon(
-              Icons.add,
-              size: 50,
-              color: Colors.white,
-            ),
+          Icon(
+            Icons.add,
+            size: 50,
+            color: Colors.white,
           ),
+          // ),
           // Icon(
           //   Icons.list,
           //   size: 50,
@@ -82,7 +94,6 @@ class HomePage extends StatelessWidget {
         animationDuration: Duration(milliseconds: 300),
         animationCurve: Curves.easeInOutExpo,
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: MainApp(),
     );
   }
