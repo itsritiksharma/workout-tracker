@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import './screens/calendar_screen.dart';
 import './widgets/home_page.dart';
-import 'providers/app_mode.dart';
 import './providers/app_mode.dart';
-import './screens/auth_screen.dart';
+import './providers/app_mode.dart';
 import './providers/auth.dart';
+import './screens/auth_screen.dart';
+import './screens/calendar_screen.dart';
+import './screens/splash_screen.dart';
 
 void main() async {
   await dotenv.load();
@@ -75,7 +76,15 @@ class MyApp extends StatelessWidget {
             ),
             home: Consumer<Auth>(
               builder: (ctx, auth, __) {
-                return auth.isAuth ? HomePage() : AuthScreen();
+                return auth.isAuth
+                    ? HomePage()
+                    : FutureBuilder(
+                        future: auth.tryAuthLogin(),
+                        builder: (ctx, authResultSnapshot) =>
+                            authResultSnapshot.connectionState ==
+                                    ConnectionState.waiting
+                                ? SplashScreen()
+                                : AuthScreen());
               },
             ),
             routes: {
