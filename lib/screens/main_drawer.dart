@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/app_mode.dart';
+import '../providers/auth.dart';
 
 class MainDrawer extends StatefulWidget {
   const MainDrawer({Key? key}) : super(key: key);
@@ -17,13 +18,13 @@ class _MainDrawerState extends State<MainDrawer> {
   // }
 
   Widget drawerItemsBuilder(String title, IconData icon, BuildContext context,
-      {bool hasSwitch = false}) {
+      {bool hasSwitch = false, VoidCallback? function}) {
     return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(width: 1, color: Colors.grey.shade400),
-        ),
-      ),
+      // decoration: BoxDecoration(
+      //   border: Border(
+      //     bottom: BorderSide(width: 1, color: Colors.grey.shade400),
+      //   ),
+      // ),
       child: ListTile(
         leading: Icon(icon),
         onTap: () {},
@@ -68,8 +69,11 @@ class _MainDrawerState extends State<MainDrawer> {
                 ),
               ),
             ),
+            Divider(),
             drawerItemsBuilder('Calendar', Icons.calendar_view_day, context),
+            Divider(),
             drawerItemsBuilder('Settings', Icons.settings, context),
+            Divider(),
             // drawerItemsBuilder(
             //   'Dark Mode',
             //   Icons.brightness_medium_outlined,
@@ -78,11 +82,11 @@ class _MainDrawerState extends State<MainDrawer> {
             //   ChangeMode: mode.changeMode(),
             // ),
             Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(width: 1, color: Colors.grey.shade400),
-                ),
-              ),
+              // decoration: BoxDecoration(
+              //   border: Border(
+              //     bottom: BorderSide(width: 1, color: Colors.grey.shade400),
+              //   ),
+              // ),
               child: ListTile(
                 trailing: Switch(
                     value: isDark,
@@ -96,6 +100,22 @@ class _MainDrawerState extends State<MainDrawer> {
                 leading: const Icon(Icons.brightness_medium_outlined),
                 onTap: () {},
                 title: const Text('Dark mode'),
+              ),
+            ),
+            Divider(),
+            Container(
+              // decoration: BoxDecoration(
+              //   border: Border(
+              //     bottom: BorderSide(width: 1, color: Colors.grey.shade400),
+              //   ),
+              // ),
+              child: ListTile(
+                leading: const Icon(Icons.exit_to_app),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Provider.of<Auth>(context, listen: false).logout();
+                },
+                title: const Text('Logout'),
               ),
             ),
           ],
